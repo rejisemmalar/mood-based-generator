@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { focusPuzzles } from "../contents/focusPuzzles";
 import { sadContent } from "../contents/sadContent";
 import { energyActions } from "../contents/energyAction";
@@ -9,14 +9,13 @@ export default function useMoodContent(mood) {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const loadContent = async () => {
+  const loadContent = useCallback(async () => {
     setLoading(true);
 
     try {
       // SAD => Joke OR Quote
       if (mood === "sad") {
         if (Math.random() > 0.5) {
-          // Joke API 
           const res = await fetch(
             "https://official-joke-api.appspot.com/jokes/random"
           );
@@ -26,7 +25,6 @@ export default function useMoodContent(mood) {
             text: `${data.setup} — ${data.punchline}`,
           });
         } else {
-          // Quote API (Quotable) 
           const res = await fetch("https://api.quotable.io/random");
           const data = await res.json();
           setContent({
@@ -36,7 +34,7 @@ export default function useMoodContent(mood) {
         }
       }
 
-      //  FOCUSED => PUZZLE (Trivia)
+      // FOCUSED => PUZZLE
       if (mood === "focused") {
         const res = await fetch(
           "https://opentdb.com/api.php?amount=1&type=multiple"
@@ -58,7 +56,7 @@ export default function useMoodContent(mood) {
         }
       }
 
-      // ENERGETIC =>  LOCAL ACTION
+      // ENERGETIC => ACTION
       if (mood === "energetic") {
         setContent({
           type: "action",
@@ -68,32 +66,34 @@ export default function useMoodContent(mood) {
     } catch (error) {
       console.warn("API failed, using fallback", error);
 
-      //  FALLBACKS (always work)
-      if (mood === "sad")
+      if (mood === "sad") {
         setContent({
           type: "text",
           text: random(sadContent).text,
         });
+      }
 
-      if (mood === "focused")
+      if (mood === "focused") {
         setContent({
           type: "puzzle",
           ...random(focusPuzzles),
         });
+      }
 
-      if (mood === "energetic")
+      if (mood === "energetic") {
         setContent({
           type: "action",
           text: random(energyActions),
         });
+      }
     }
 
     setLoading(false);
-  };
+  }, [mood]);
 
   useEffect(() => {
     loadContent();
-  }, [mood]);
+  }, [loadContent]);
 
   return { content, loading, refresh: loadContent };
 }
