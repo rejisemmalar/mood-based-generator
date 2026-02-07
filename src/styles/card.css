@@ -1,0 +1,470 @@
+.mood-card {
+  width: 340px;
+  min-height: 260px;
+  padding: 32px;
+  border-radius: 24px;
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Sad – calm blue */
+.mood-bg-sad {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+
+.mood-glow-sad {
+  box-shadow:
+    0 0 40px rgba(59, 130, 246, 0.6),
+    0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.text-sad {
+  color: #e0f2fe;
+}
+
+/* Focused – purple calm */
+.mood-bg-focused {
+  background: linear-gradient(135deg, #4c1d95, #8b5cf6);
+}
+
+.mood-glow-focused {
+  box-shadow:
+    0 0 40px rgba(139, 92, 246, 0.6),
+    0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.text-focused {
+  color: #f3e8ff;
+}
+
+/* Energetic – orange/yellow pop */
+.mood-bg-energetic {
+  background: linear-gradient(135deg, #f97316, #fde047);
+}
+
+.mood-glow-energetic {
+  box-shadow:
+    0 0 40px rgba(253, 224, 71, 0.7),
+    0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.text-energetic {
+  color: #1f2933;
+}
+
+/* =========Animation of pages================ */
+.mood-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #fff;
+}
+
+.content-center {
+  position: relative;
+  z-index: 2;
+  /* above animations */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* animated layer */
+.mood-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+
+/* rain */
+.rain-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.raindrop {
+  position: absolute;
+  top: -10%;
+  width: 2px;
+  height: 14px;
+  background: linear-gradient(to bottom, rgba(59, 130, 246, .8), transparent);
+  opacity: 0.7;
+  animation: rain-fall linear infinite;
+}
+
+.raindrop:nth-child(n) {
+  left: calc(100% * var(--x));
+}
+
+.raindrop {
+  left: calc(100% * random());
+  animation-duration: calc(0.5s + 1s * random());
+  animation-delay: calc(-1s * random());
+}
+
+@keyframes rain-fall {
+  to {
+    transform: translateY(120vh);
+  }
+}
+
+/* Scene */
+.weather-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Sky */
+.skys {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+      #0f172a,
+      #1e293b,
+      #334155);
+  z-index: 0;
+}
+
+/* Clouds */
+.cloud-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cloud {
+  position: absolute;
+  left: -30%;
+  width: 160px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50px;
+  filter: blur(1px);
+  animation: cloud-move linear infinite;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 70px;
+  height: 70px;
+  top: -35px;
+  left: 20px;
+}
+
+.cloud::after {
+  width: 90px;
+  height: 90px;
+  top: -45px;
+  right: 15px;
+}
+
+@keyframes cloud-move {
+  to {
+    transform: translateX(160vw);
+  }
+}
+
+/* Rain (you already have this, keep it) */
+.rain-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.raindrop {
+  position: absolute;
+  top: -10%;
+  width: 2px;
+  height: 14px;
+  background: linear-gradient(to bottom,
+      rgba(59, 130, 246, .8),
+      transparent);
+  opacity: 0.7;
+  animation: rain-fall linear infinite;
+}
+
+@keyframes rain-fall {
+  to {
+    transform: translateY(120vh);
+  }
+}
+
+/* birds  */
+.birds-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.bird {
+  position: absolute;
+  top: 20%;
+  left: -20%;
+  width: 60px;
+  height: 30px;
+  color: rgba(55, 65, 81, 0.8);
+  animation: bird-fly 16s linear infinite;
+}
+
+.bird-2 {
+  top: 38%;
+  animation-delay: 6s;
+  transform: scale(0.8);
+}
+
+.wing {
+  transform-origin: center;
+  animation: flap 0.4s ease-in-out infinite;
+}
+
+.wing.right {
+  animation-delay: 0.2s;
+}
+
+@keyframes flap {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-12deg);
+  }
+}
+
+@keyframes bird-fly {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+
+  50% {
+    transform: translateX(60vw) translateY(-30px);
+  }
+
+  100% {
+    transform: translateX(130vw) translateY(0);
+  }
+}
+
+/* tress */
+
+.tree-layer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 700px;
+  height: 120%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.tree-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tree-leaves {
+  transform-origin: bottom center;
+  animation: tree-sway 4s ease-in-out infinite;
+}
+
+@keyframes tree-sway {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(2.5deg);
+  }
+}
+
+/* Falling leaves */
+.leaves-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.falling-leaf {
+  position: absolute;
+  top: -10%;
+  width: 14px;
+  height: 18px;
+  background: linear-gradient(135deg, #f97316, #ca8a04);
+  border-radius: 2px 8px 2px 8px;
+  animation: leaf-fall linear infinite;
+}
+
+@keyframes leaf-fall {
+  0% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateX(-30px) rotate(180deg);
+  }
+
+  100% {
+    transform: translateY(120vh) translateX(40px) rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+/* grass Layer */
+.grass-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  pointer-events: none;
+  z-index: 4;
+  display: block;
+  background: linear-gradient(to top,
+      #14532d,
+      transparent);
+}
+
+.grass-blade {
+  position: absolute;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to top,
+      #166534,
+      #22c55e);
+  border-radius: 2px;
+  transform-origin: bottom center;
+  animation-name: grass-sway;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.grass-blade:nth-child(3n) {
+  width: 3px;
+  background: linear-gradient(to top, #14532d, #16a34a);
+}
+
+.grass-blade:nth-child(5n) {
+  opacity: 0.7;
+}
+
+@keyframes grass-sway {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(8deg);
+  }
+}
+
+/* sun */
+.sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+      #60a5fa,
+      #93c5fd,
+      #e0f2fe);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sun-layer {
+  position: absolute;
+  top: 30px;
+  right: 10%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+      rgba(255, 209, 6, 0.9),
+      rgba(253, 224, 71, 0.6),
+      rgba(218, 5, 5, 0.2),
+      transparent 75%);
+  filter: blur(4px);
+  box-shadow: 0 0 140px rgba(253, 224, 71, 0.5);
+  animation: sun-float 12s ease-in-out infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@keyframes sun-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(12px);
+  }
+}
+
+
+@keyframes sun-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(12px);
+  }
+}
+
+/* sky */
+.sky-haze {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0.06),
+      transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .mood-card {
+    width: 90%;
+    min-height: auto;
+    padding: 24px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mood-card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+}

@@ -1,0 +1,120 @@
+.home-wrapper {
+  background: linear-gradient(to bottom, #2272b9, #ffffff);
+}
+
+.weather-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.clouds {
+  position: absolute;
+  width: 140px;
+  height: 60px;
+  background: #fff;
+  border-radius: 50px;
+  opacity: 0.8;
+  filter: blur(1px);
+  animation: moveClouds 30s linear infinite;
+}
+
+.clouds::before,
+.clouds::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  top: -30px;
+}
+
+.clouds::before {
+  left: 20px;
+}
+.clouds::after {
+  right: 20px;
+}
+
+.cloud-1 { top: 20%; left: -200px; animation-duration: 40s; }
+.cloud-2 { top: 45%; left: -300px; animation-duration: 55s; }
+.cloud-3 { top: 65%; left: -250px; animation-duration: 35s; }
+
+@keyframes moveClouds {
+  from { transform: translateX(0); }
+  to { transform: translateX(120vw); }
+}
+
+/* =================================Button========================= */
+.mood-btn {
+  min-width: 140px;
+  height: 90px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.mood-btn i {
+  font-size: 1.6rem;
+  transition: transform 0.25s ease;
+}
+
+.mood-btn span {
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+/* Hover animation */
+.mood-btn:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+.mood-btn:hover i {
+  transform: scale(1.2) rotate(-5deg);
+}
+
+/* Mood colors */
+.mood-btn.sad {
+  color: #0d6efd;
+}
+
+.mood-btn.focused {
+  color: #212529;
+}
+
+.mood-btn.energetic {
+  color: #fd7e14;
+}
+
+/* Glow on hover */
+.mood-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(255,255,255,0.6), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mood-btn:hover::after {
+  opacity: 1;
+}
+
+.mood-btn:active {
+  outline: 20px solid currentColor;
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.05), 0 15px 40px rgba(0,0,0,0.2);
+}
