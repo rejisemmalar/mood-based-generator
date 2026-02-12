@@ -20,8 +20,8 @@
     0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.text-sad {
-  color: #e0f2fe;
+.mood-card .text-sad {
+  color: #e0f2fe !important;
 }
 
 /* Focused – purple calm */
@@ -35,11 +35,11 @@
     0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.text-focused {
-  color: #f3e8ff;
+.mood-card .text-focused {
+  color: #f3e8ff !important;
 }
 
-/* Energetic – orange/yellow pop */
+/* Energetic */
 .mood-bg-energetic {
   background: linear-gradient(135deg, #f97316, #fde047);
 }
@@ -50,10 +50,17 @@
     0 20px 40px rgba(0, 0, 0, 0.35);
 }
 
-.text-energetic {
-  color: #1f2933;
+.mood-card .text-energetic {
+  color: #f3e8ff !important;
 }
 
+.content-box {
+  min-height: 96px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 /* =========Animation of pages================ */
 .mood-page {
   position: relative;
@@ -90,15 +97,7 @@
   z-index: 1;
 }
 
-.raindrop {
-  position: absolute;
-  top: -10%;
-  width: 2px;
-  height: 14px;
-  background: linear-gradient(to bottom, rgba(59, 130, 246, .8), transparent);
-  opacity: 0.7;
-  animation: rain-fall linear infinite;
-}
+
 
 .raindrop:nth-child(n) {
   left: calc(100% * var(--x));
@@ -181,15 +180,6 @@
   }
 }
 
-/* Rain (you already have this, keep it) */
-.rain-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 2;
-}
-
 .raindrop {
   position: absolute;
   top: -10%;
@@ -269,7 +259,7 @@
 
 /* tress */
 
-.tree-layer {
+/* .tree-layer {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -287,7 +277,7 @@
 .tree-leaves {
   transform-origin: bottom center;
   animation: tree-sway 4s ease-in-out infinite;
-}
+} */
 
 @keyframes tree-sway {
 
@@ -453,18 +443,156 @@
   pointer-events: none;
 }
 
-@media (max-width: 768px) {
-  .mood-card {
-    width: 90%;
-    min-height: auto;
-    padding: 24px;
-    border-radius: 20px;
+/* ===== Mood-based Typography ===== */
+
+.mood-card[data-mood="sad"] h1 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  letter-spacing: 0.3px;
+}
+
+.mood-card[data-mood="focused"] h1 {
+  font-size: clamp(1.7rem, 4vw, 2.1rem);
+  letter-spacing: 0.6px;
+}
+
+.mood-card[data-mood="energetic"] h1 {
+  font-size: clamp(1.9rem, 4vw, 2.4rem);
+  letter-spacing: -0.3px;
+}
+
+/* ===== Skeleton Loader ===== */
+
+.skeleton-text {
+  width: 80%;
+  height: 16px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.15),
+    rgba(255,255,255,0.35),
+    rgba(255,255,255,0.15)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
   }
 }
 
+.btn-success {
+  background-color: #22c55e !important;
+  border-color: #22c55e !important;
+}
+
+.btn-danger {
+  background-color: #ef4444 !important;
+  border-color: #ef4444 !important;
+}
+
+
+/* ===================Responsive================ */
 @media (max-width: 480px) {
   .mood-card {
+    width: 92%;
     padding: 20px;
     border-radius: 18px;
   }
+
+  .mood-card h1 {
+    font-size: 1.4rem; 
+  }
+
+  .content-box p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .btn {
+    padding: 8px 18px;
+    font-size: 0.85rem;
+  }
 }
+
+/* small tab */
+@media (min-width: 481px) and (max-width: 768px) {
+  .mood-card {
+    width: 80%;
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .mood-card h1 {
+    font-size: 1.8rem;
+  }
+
+  .content-box p {
+    font-size: 1rem;
+  }
+}
+
+/* lap */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mood-card {
+    width: 360px;
+  }
+}
+
+/* largedesktop */
+@media (min-width: 1280px) {
+  .mood-card {
+    width: 420px;
+    padding: 36px;
+  }
+
+  .mood-card h1 {
+    font-size: 2.2rem;
+  }
+
+  .content-box p {
+    font-size: 1.05rem;
+  }
+}
+
+
+
+/* ===== Responsive Cloud Density ===== */
+
+/* Mobile: fewer clouds */
+@media (max-width: 480px) {
+  .cloud:nth-child(n+3) {
+    display: none;
+  }
+}
+
+/* Tablet: medium clouds */
+@media (min-width: 481px) and (max-width: 768px) {
+  .cloud:nth-child(n+4) {
+    display: none;
+  }
+}
+
+/* Desktop: full clouds */
+@media (min-width: 769px) {
+  .cloud {
+    display: block;
+  }
+}
+/* ===== Responsive Rain Density ===== */
+
+/* Mobile */
+@media (max-width: 480px) {
+  .raindrop:nth-child(odd) {
+    display: none;
+  }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+  .raindrop:nth-child(3n) {
+    display: none;
+  }
+}
+

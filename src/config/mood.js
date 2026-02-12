@@ -1,6 +1,6 @@
 export const MOODS = {
   sad: {
-    title: "Feeling Sad",
+    title: "Felling Sad",
     breathe: "Breathe slowly",
     cardBg: "mood-bg-sad",
     glow: "mood-glow-sad",

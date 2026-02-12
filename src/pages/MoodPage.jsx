@@ -5,7 +5,7 @@ import HamburgerMenu from "../components/common/HamBurgerMenu";
 import MoodCard from "../components/MoodCard";
 import "../styles/hamburger.css";
 import "../styles/card.css"
-import { BirdsLayer,  FallingLeaves, GrassLayer, TreeLayer } from "../components/animations/BirdsLayer";
+import { BirdsLayer,  FallingLeaves, GrassLayer} from "../components/animations/BirdsLayer";
 import { Sky, Skyhaze, SunLayer } from "../components/animations/SunLayer";
 import { RainLayer, WeatherScene } from "../components/animations/RainLayer";
 
@@ -23,7 +23,7 @@ export default function MoodPage() {
       {moodType === "sad" && <RainLayer />}
       {moodType === "sad" && <WeatherScene />}
       {moodType === "focused" && <BirdsLayer />}
-      {moodType === "focused" && <TreeLayer />}
+      {/* {moodType === "focused" && <TreeLayer />} */}
       {moodType === "focused" && <FallingLeaves />}
       {moodType === "focused" && <GrassLayer />}      
       {moodType === "energetic" && <SunLayer />}

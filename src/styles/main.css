@@ -1,5 +1,10 @@
 .home-wrapper {
   background: linear-gradient(to bottom, #2272b9, #ffffff);
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
 }
 
 .weather-bg {
@@ -33,17 +38,37 @@
 .clouds::before {
   left: 20px;
 }
+
 .clouds::after {
   right: 20px;
 }
 
-.cloud-1 { top: 20%; left: -200px; animation-duration: 40s; }
-.cloud-2 { top: 45%; left: -300px; animation-duration: 55s; }
-.cloud-3 { top: 65%; left: -250px; animation-duration: 35s; }
+.cloud-1 {
+  top: 20%;
+  left: -200px;
+  animation-duration: 40s;
+}
+
+.cloud-2 {
+  top: 45%;
+  left: -300px;
+  animation-duration: 55s;
+}
+
+.cloud-3 {
+  top: 65%;
+  left: -250px;
+  animation-duration: 35s;
+}
 
 @keyframes moveClouds {
-  from { transform: translateX(0); }
-  to { transform: translateX(120vw); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(120vw);
+  }
 }
 
 /* =================================Button========================= */
@@ -51,6 +76,7 @@
   min-width: 140px;
   height: 90px;
   border-radius: 16px;
+  padding: 16px 22px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(10px);
@@ -105,7 +131,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(255,255,255,0.6), transparent 60%);
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.6), transparent 60%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -116,5 +142,42 @@
 
 .mood-btn:active {
   outline: 20px solid currentColor;
-  box-shadow: 0 0 0 4px rgba(0,0,0,0.05), 0 15px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05), 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ===============Responsive====================== */
+/* mobile  */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.6rem;
+    padding: 0 16px;
+  }
+
+  .mood-btn {
+    min-width: 100px;
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+
+  .mood-btn i {
+    font-size: 1.4rem;
+  }
+
+  .d-flex.gap-3 {
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px !important;
+  }
+}
+
+/* laptops */
+@media (min-width: 769px) and (max-width: 1024px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  .mood-btn {
+    min-width: 140px;
+  }
 }

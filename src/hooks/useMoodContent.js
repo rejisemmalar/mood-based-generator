@@ -5,87 +5,90 @@ import { energyActions } from "../contents/energyAction";
 
 const random = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
+/* ---- SAFE FETCH (timeout + fallback) ---- */
+const safeFetch = async (url, timeout = 5000) => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    if (!res.ok) throw new Error("API error");
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
+};
+
 export default function useMoodContent(mood) {
   const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const loadContent = useCallback(async () => {
     setLoading(true);
+    setContent(null); // keeps card size stable
 
-    try {
-      // SAD => Joke OR Quote
-      if (mood === "sad") {
-        if (Math.random() > 0.5) {
-          const res = await fetch(
-            "https://official-joke-api.appspot.com/jokes/random"
-          );
-          const data = await res.json();
-          setContent({
-            type: "text",
-            text: `${data.setup} — ${data.punchline}`,
-          });
-        } else {
-          const res = await fetch("https://api.quotable.io/random");
-          const data = await res.json();
-          setContent({
-            type: "text",
-            text: `"${data.content}" — ${data.author}`,
-          });
-        }
-      }
-
-      // FOCUSED => PUZZLE
-      if (mood === "focused") {
-        const res = await fetch(
-          "https://opentdb.com/api.php?amount=1&type=multiple"
+    /* ================= SAD ================= */
+    if (mood === "sad") {
+      try {
+        // ONLY jokes API (stable)
+        const data = await safeFetch(
+          "https://official-joke-api.appspot.com/jokes/random",
         );
-        const data = await res.json();
 
-        if (data.results?.length) {
-          setContent({
-            type: "puzzle",
-            question: data.results[0].question,
-            correct: data.results[0].correct_answer,
-            options: [
-              ...data.results[0].incorrect_answers,
-              data.results[0].correct_answer,
-            ].sort(() => Math.random() - 0.5),
-          });
-        } else {
-          setContent(random(focusPuzzles));
-        }
-      }
-
-      // ENERGETIC => ACTION
-      if (mood === "energetic") {
         setContent({
-          type: "action",
-          text: random(energyActions),
+          type: "text",
+          text: `${data.setup} — ${data.punchline}`,
         });
-      }
-    } catch (error) {
-      console.warn("API failed, using fallback", error);
-
-      if (mood === "sad") {
+      } catch {
         setContent({
           type: "text",
           text: random(sadContent).text,
         });
       }
+    }
 
-      if (mood === "focused") {
-        setContent({
-          type: "puzzle",
-          ...random(focusPuzzles),
-        });
-      }
+    /* ================= FOCUSED ================= */
+    // if (mood === "focused") {
+    //   try {
+    //     const data = await safeFetch(
+    //       "https://opentdb.com/api.php?amount=1&type=multiple"
+    //     );
 
-      if (mood === "energetic") {
-        setContent({
-          type: "action",
-          text: random(energyActions),
-        });
-      }
+    //     if (data.results?.length) {
+    //       const q = data.results[0];
+    //       setContent({
+    //         type: "puzzle",
+    //         question: q.question,
+    //         correct: q.correct_answer,
+    //         options: [...q.incorrect_answers, q.correct_answer].sort(
+    //           () => Math.random() - 0.5
+    //         ),
+    //       });
+    //     } else {
+    //       setContent(random(focusPuzzles));
+    //     }
+    //   } catch {
+    //     // GUARANTEED focused fallback
+    //     setContent(random(focusPuzzles));
+    //   }
+    // }
+    if (mood === "focused") {
+      const puzzle = random(focusPuzzles);
+
+      setContent({
+        type: "puzzle",
+        question: puzzle.question,
+        correct: puzzle.correct,
+        options: puzzle.options,
+      });
+    }
+
+    /* ================= ENERGETIC ================= */
+    if (mood === "energetic") {
+      setContent({
+        type: "action",
+        text: random(energyActions),
+      });
     }
 
     setLoading(false);
@@ -95,5 +98,9 @@ export default function useMoodContent(mood) {
     loadContent();
   }, [loadContent]);
 
-  return { content, loading, refresh: loadContent };
+  return {
+    content,
+    loading,
+    refresh: loadContent,
+  };
 }
